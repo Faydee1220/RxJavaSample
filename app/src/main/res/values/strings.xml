@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">RxJavaSample</string>
+  <string name="main_edit_text_hint">Please input your name</string>
+  <string name="main_update">Update</string>
+</resources>
