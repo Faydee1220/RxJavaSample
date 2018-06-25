@@ -9,6 +9,8 @@ import io.reactivex.Flowable;
  */
 @Dao
 public interface UserDao {
+
+
   @Query("SELECT * FROM users LIMIT 1")
   Flowable<User> getUser();
 }
