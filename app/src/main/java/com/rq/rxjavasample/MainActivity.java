@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(userName -> mBinding.textViewMainUserName.setText(userName),
-            throwable -> Log.e(TAG, "unable to update user name", throwable)));
+            throwable -> Log.e(TAG, "unable to get user name", throwable)));
   }
 
   @Override protected void onStop() {
