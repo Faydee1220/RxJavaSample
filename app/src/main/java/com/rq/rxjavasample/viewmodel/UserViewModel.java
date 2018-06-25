@@ -10,6 +10,7 @@ import io.reactivex.Flowable;
  * Created by Faydee on 2018/6/25.
  */
 public class UserViewModel extends ViewModel {
+
   private final UserDataSource mDataSource;
   private User mUser;
 

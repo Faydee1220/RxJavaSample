@@ -6,6 +6,7 @@ import io.reactivex.Flowable;
  * Created by Faydee on 2018/6/25.
  */
 public class LocalUserDataSource implements UserDataSource {
+
   private final UserDao mUserDao;
 
   public LocalUserDataSource(UserDao userDao) {

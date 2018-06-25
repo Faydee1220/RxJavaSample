@@ -8,6 +8,8 @@ import io.reactivex.Flowable;
 public interface UserDataSource {
 
   Flowable<User> getUser();
+
   void insertOrUpdateUser(User user);
+
   void deleteAllUsers();
 }
