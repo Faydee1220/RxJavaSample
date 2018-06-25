@@ -8,6 +8,9 @@ import android.util.Log;
 import com.rq.rxjavasample.databinding.ActivityMainBinding;
 import com.rq.rxjavasample.viewmodel.UserViewModel;
 import com.rq.rxjavasample.viewmodel.ViewModelFactory;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
   private ActivityMainBinding mBinding;
   private ViewModelFactory mViewModelFactory;
   private UserViewModel mUserViewModel;
+  private final CompositeDisposable mDisposable = new CompositeDisposable();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,28 @@ public class MainActivity extends AppCompatActivity {
     mBinding.buttonMainUpdate.setOnClickListener(view -> updateButtonPressed());
   }
 
+  @Override protected void onStart() {
+    super.onStart();
+    mDisposable.add(mUserViewModel.getUserName()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(userName -> mBinding.textViewMainUserName.setText(userName),
+            throwable -> Log.e(TAG, "unable to update user name", throwable)));
+  }
+
+  @Override protected void onStop() {
+    super.onStop();
+    mDisposable.clear();
+  }
+
   private void updateButtonPressed() {
     Log.d(TAG, "updateButtonPressed");
+    String name = mBinding.editTextMainUserName.getText().toString();
+    mBinding.buttonMainUpdate.setEnabled(false);
+    mDisposable.add(mUserViewModel.updateUserName(name)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(() -> mBinding.buttonMainUpdate.setEnabled(true),
+            throwable -> Log.e(TAG, "unable to update user name", throwable)));
   }
 }
