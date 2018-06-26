@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
   @Override protected void onStart() {
     super.onStart();
     mDisposable.add(mUserViewModel.getUserName()
+        // 資料庫存取可以使用 Schedulers.io()
+        // This can be used for asynchronously performing blocking IO.
+        // This is one of the most common types of Schedulers that are used.
+        // They are generally used for IO related stuff.
+        // Such as network requests, file system operations.
+        // IO scheduler is backed by thread-pool.
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(userName -> mBinding.textViewMainUserName.setText(userName),
